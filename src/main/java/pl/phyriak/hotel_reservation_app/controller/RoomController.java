@@ -1,10 +1,9 @@
 package pl.phyriak.hotel_reservation_app.controller;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import pl.phyriak.hotel_reservation_app.model.Order;
-import pl.phyriak.hotel_reservation_app.model.Room;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import pl.phyriak.hotel_reservation_app.model.*;
 import pl.phyriak.hotel_reservation_app.service.RoomService;
 
 import java.util.List;
@@ -21,6 +20,25 @@ public class RoomController {
     @GetMapping(value = "/rooms")
     public List<Room> getAllRooms() {
         return roomService.getAllOrders();
+    }
+
+    @CrossOrigin
+    @GetMapping("/rooms/{id}")
+    public ResponseEntity<?> getRoomById(@PathVariable Long id) {
+        return new ResponseEntity<>(roomService.findById(id), HttpStatus.OK);
+    }
+
+    @CrossOrigin
+    @PostMapping(value = "/rooms")
+    public ResponseEntity<Room> createUser(@RequestBody RoomDTO room){
+        return new ResponseEntity<>(roomService.createRoom(room), HttpStatus.CREATED);
+    }
+
+    @CrossOrigin
+    @DeleteMapping("/orders/{id}")
+    public ResponseEntity<?> deleteOrder(@PathVariable final Long id) {
+        roomService.deleteOrder(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

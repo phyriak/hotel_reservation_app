@@ -6,9 +6,12 @@ import pl.phyriak.hotel_reservation_app.model.Order;
 
 import java.util.List;
 
-public interface OrderRepository extends JpaRepository<Order,Long> {
+public interface OrderRepository extends JpaRepository<Order, Long> {
 
 
-            @Query("select t from room_order t where t.room.room_id = :roomId")
-            List<Order> findAllOrdersByRoomId(Long roomId);
+    @Query("select t from room_order t where t.room.room_id = :roomId")
+    List<Order> findAllOrdersByRoomId(Long roomId);
+
+    @Query("select t from room_order t where t.user.user_id = :id")
+    List<Order> findByUserId(Long id);
 }
