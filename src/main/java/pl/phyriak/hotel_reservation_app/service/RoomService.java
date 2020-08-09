@@ -1,32 +1,28 @@
 package pl.phyriak.hotel_reservation_app.service;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.phyriak.hotel_reservation_app.exception.ElementNotFoundException;
 import pl.phyriak.hotel_reservation_app.mapper.RoomMapper;
-import pl.phyriak.hotel_reservation_app.mapper.UserMapper;
-import pl.phyriak.hotel_reservation_app.model.Order;
 import pl.phyriak.hotel_reservation_app.model.Room;
 import pl.phyriak.hotel_reservation_app.model.RoomDTO;
 import pl.phyriak.hotel_reservation_app.repository.RoomRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class RoomService {
 RoomRepository roomRepository;
 
-    public RoomService(RoomRepository roomRepository) {
-        this.roomRepository = roomRepository;
-    }
 
     public List<Room> getAllOrders() {
         List<Room> allRooms = roomRepository.findAll();
         return allRooms;
     }
 
-    public Object findById(Long id) {
-        if (roomRepository.findById(id).isPresent()) return roomRepository.findById(id);
-        else throw new RuntimeException("Not exist");
+    public Room findById(Long id) {
+        return roomRepository.findById(id).orElseThrow(()->new ElementNotFoundException("Not found"));
     }
 
     public Room createRoom(RoomDTO roomDTO) {
@@ -35,7 +31,7 @@ RoomRepository roomRepository;
     }
 
     public void deleteRoom(Long id) {
-        Room room = roomRepository.findById(id).orElseThrow(()->new RuntimeException("not exist"));
+        Room room = roomRepository.findById(id).orElseThrow(()->new ElementNotFoundException("Not found"));
        roomRepository.delete(room);
     }
 }
