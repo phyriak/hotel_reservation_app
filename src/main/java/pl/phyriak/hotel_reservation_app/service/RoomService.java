@@ -34,7 +34,7 @@ RoomRepository roomRepository;
             return roomRepository.save(room);
     }
 
-    public void deleteOrder(Long id) {
+    public void deleteRoom(Long id) {
         Room room = roomRepository.findById(id).orElseThrow(()->new RuntimeException("not exist"));
        roomRepository.delete(room);
     }
