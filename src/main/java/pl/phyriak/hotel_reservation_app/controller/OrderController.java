@@ -1,5 +1,6 @@
 package pl.phyriak.hotel_reservation_app.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,12 +11,9 @@ import pl.phyriak.hotel_reservation_app.service.OrderService;
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 public class OrderController {
     OrderService orderService;
-
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
-    }
 
     @CrossOrigin
     @GetMapping(value = "/orders")
@@ -31,6 +29,14 @@ public class OrderController {
     }
 
     @CrossOrigin
+    @GetMapping("/ordersByUser/{id}")
+    public ResponseEntity<?> getOrdersByUser(@PathVariable Long id) {
+        return new ResponseEntity<>(orderService.findByUserId(id), HttpStatus.OK);
+    }
+
+
+
+    @CrossOrigin
     @PostMapping(value = "/orders")
     public ResponseEntity<Order> createOrder(@RequestBody OrderDTO order) {
         return new ResponseEntity<>(orderService.createOrder(order), HttpStatus.CREATED);
@@ -44,7 +50,7 @@ public class OrderController {
     }
 
     @CrossOrigin
-    @DeleteMapping("/orders/{id}")
+    @DeleteMapping("/orders/delete/{id}")
     public ResponseEntity<?> deleteOrder(@PathVariable final Long id) {
         orderService.deleteOrder(id);
         return new ResponseEntity<>(HttpStatus.OK);

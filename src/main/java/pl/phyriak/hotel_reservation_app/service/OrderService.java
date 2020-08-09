@@ -9,6 +9,8 @@ import pl.phyriak.hotel_reservation_app.repository.OrderRepository;
 import pl.phyriak.hotel_reservation_app.repository.RoomRepository;
 import pl.phyriak.hotel_reservation_app.repository.UserRepository;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,6 +40,12 @@ public class OrderService {
         if (orderRepository.findById(id).isPresent())
             return orderRepository.findById(id);
         else throw new RuntimeException("Element not found");
+    }
+
+    public List<Order> findByUserId(Long id) {
+       if(orderRepository.findByUserId(id).isEmpty()){
+           return Collections.EMPTY_LIST;
+       }else return orderRepository.findByUserId(id);
     }
 
     public boolean checkAvailabilityOfRoom(OrderDTO orderDTO) {
@@ -86,4 +94,6 @@ public class OrderService {
         Order order = orderRepository.findById(id).orElseThrow(() -> new RuntimeException("Element not found"));
         orderRepository.delete(order);
     }
+
+
 }
