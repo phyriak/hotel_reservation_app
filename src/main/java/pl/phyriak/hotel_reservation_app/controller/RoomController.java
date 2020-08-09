@@ -36,8 +36,8 @@ public class RoomController {
 
     @CrossOrigin
     @DeleteMapping("/orders/{id}")
-    public ResponseEntity<?> deleteOrder(@PathVariable final Long id) {
-        roomService.deleteOrder(id);
+    public ResponseEntity<?> deleteRoom(@PathVariable final Long id) {
+        roomService.deleteRoom(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
