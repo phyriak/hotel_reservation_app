@@ -19,4 +19,8 @@ RoomRepository roomRepository;
         List<Room> allRooms = roomRepository.findAll();
         return allRooms;
     }
+
+    public Room getRoomById(Long id) {
+        return roomRepository.findById(id).orElseThrow(()-> new RuntimeException("Not exist"));
+    }
 }
